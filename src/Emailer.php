@@ -29,7 +29,7 @@ class Emailer extends PHPMailer
      * Send email using servers defined in Config and fallback to them
      *
      * @param int $serverKey
-     * @return int The sucessful server key
+     * @return int The sucessful server key. Note this can return 0 which is a valid server key.
      * @throws Error
      * @throws Exception
      */

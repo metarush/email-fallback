@@ -11,7 +11,8 @@ class Emailer extends PHPMailer
 {
     private $cfg;
     private $failedServers = [];
-    private $successServer = null;
+    private $successServerHost = null;
+    private $successServerKey = null;
 
     public function __construct(Config $cfg)
     {
@@ -28,11 +29,11 @@ class Emailer extends PHPMailer
      * Send email using servers defined in Config and fallback to them
      *
      * @param int $serverKey
-     * @return void
+     * @return int The sucessful server key
      * @throws Error
      * @throws Exception
      */
-    public function sendEmailFallback(int $serverKey = 0): void
+    public function sendEmailFallback(int $serverKey = 0): int
     {
         $servers = $this->cfg->getServers();
 
@@ -51,12 +52,14 @@ class Emailer extends PHPMailer
             $this->sendByServerKey($i);
 
         // if all server failed, throw Exception
-        if (!isset($this->successServer))
+        if (!isset($this->successServerHost))
             throw new Exception('All SMTP servers failed');
 
         // if only some server failed, notify admin
         if (count($this->failedServers) > 0)
             $this->notifyAdmin();
+
+        return $this->successServerKey;
     }
 
     /**
@@ -67,7 +70,7 @@ class Emailer extends PHPMailer
      */
     private function sendByServerKey(int $key): bool
     {
-        if (isset($this->successServer))
+        if (isset($this->successServerHost))
             return true;
 
         try {
@@ -81,7 +84,8 @@ class Emailer extends PHPMailer
             $this->Port = $servers[$key]->getPort();
             $this->send();
 
-            $this->successServer = $this->Host;
+            $this->successServerHost = $this->Host;
+            $this->successServerKey = $key;
 
             return true;
 

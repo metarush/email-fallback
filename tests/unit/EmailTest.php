@@ -30,9 +30,9 @@ class EmailerTest extends Common
         $mailer->Subject = 'Test inquiry';
         $mailer->Body = 'Test Body';
 
-        $mailer->sendEmailFallback();
+        $serverKey = $mailer->sendEmailFallback();
 
-        $this->assertTrue(true);
+        $this->assertEquals(0, $serverKey);
     }
 
     public function testSendEmailUsingFallback()
@@ -64,9 +64,9 @@ class EmailerTest extends Common
         $mailer->Subject = 'Test inquiry';
         $mailer->Body = 'Test Body';
 
-        $mailer->sendEmailFallback();
+        $serverKey = $mailer->sendEmailFallback();
 
-        $this->assertTrue(true);
+        $this->assertEquals(1, $serverKey);
     }
 
     public function testSendEmailUsingSpecificServer()
@@ -98,9 +98,9 @@ class EmailerTest extends Common
         $mailer->Subject = 'Test inquiry';
         $mailer->Body = 'Test Body';
 
-        $mailer->sendEmailFallback(1); // define server key to use
+        $serverKey = $mailer->sendEmailFallback(1); // define server key to use
 
-        $this->assertTrue(true);
+        $this->assertEquals(1, $serverKey);
     }
 
     public function testSendUsingSpecificServerThenFallback()
@@ -138,9 +138,9 @@ class EmailerTest extends Common
         $mailer->Subject = 'Test inquiry';
         $mailer->Body = 'Test Body';
 
-        $mailer->sendEmailFallback(1); // define server key to use
+        $serverKey = $mailer->sendEmailFallback(1); // define server key to use
 
-        $this->assertTrue(true);
+        $this->assertEquals(0, $serverKey);
     }
 
     public function testSendingWithAllFailedServers()

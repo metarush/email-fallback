@@ -75,7 +75,7 @@ If all servers fail, an exception `EmailFallback\Exception` will be thrown by `s
 
 ### Round-robin mode
 
-Use round-robin mode to distribute the load to all SMTP hosts
+Use round-robin mode to distribute the load to all SMTP hosts.
 
 To enable round-robin mode, you must use a storage driver to track the last server used to send email. 
 

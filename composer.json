@@ -1,8 +1,8 @@
 {
     "name": "metarush/email-fallback",
     "type": "library",
-    "description": "Send email via SMTP host, if it fails, fallback to another SMTP host.",
-    "keywords": ["php", "email", "smtp", "fallback", "mail"],
+    "description": "Send email via SMTP host, if it fails, fallback/failover to another SMTP host. Round-robin mode also available to distribute the load to all SMTP hosts.",
+    "keywords": ["php", "email", "smtp", "fallback", "failover", "mail", "round-robin"],
     "license": "MIT",
     "authors": [
         {

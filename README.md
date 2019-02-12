@@ -1,6 +1,7 @@
 # metarush/email-fallback
 
 Send email via SMTP host, if it fails, fallback/failover to another SMTP host.
+Round-robin mode also available to distribute the load to all SMTP hosts.
 
 Note: This library uses `PHPMailer`.
 
@@ -37,8 +38,9 @@ You must start the array key with `0` then increment by `1`.
 Initialize library:
 
     $mailer = (new EmailFallback\Builder($servers))
-        ->setAdminEmail('admin@example.com') // optional: get fallback notification
-        ->setAppName('myapp') // optional: identify app on fallback notification
+        ->setAdminEmail('admin@example.com') // optional: get fallback notifications
+        ->setNotificationFromEmail('admin@example.com') // if you set an admin email, you must set this
+        ->setAppName('myapp') // optional: used on fallback notifications        
         ->build();
 
 Use `PHPMailer` members normally:
@@ -53,7 +55,9 @@ Use `PHPMailer` members normally:
 
     $mailer->sendEmailFallback();
 
-### SMTP Server selector
+---
+
+### SMTP server selector
 
 If you want to send using a different server, input the key (you previously defined) in the parameter:
 
@@ -61,8 +65,54 @@ If you want to send using a different server, input the key (you previously defi
 
 This is useful if server `0` didn't fail but the email is slow to arrive. E.g., On a "forgot password" UI, users can get the email faster if you create a "try again" UI then use an alternative server to send the email again.
 
-## Notes
+**Note:**
 
 The fallback can go back from the start. If you defined 3 servers (`0`, `1`, and `2`) and you selected server `2` to send the email, it can fallback to server `0` then `1`.
 
 If all servers fail, an exception `EmailFallback\Exception` will be thrown by `sendEmailFallback()`.
+
+---
+
+### Round-robin mode
+
+Use round-robin mode to distribute the load to all SMTP hosts
+
+To enable round-robin mode, you must use a storage driver to track the last server used to send email. 
+
+#### Available drivers and their config:
+
+**files**
+
+    $driver = 'files';
+    $driverConfig = [
+        'path' => '/var/www/example/emailFallbackCache/'
+    ];
+
+
+**memcached**
+
+    $driver = 'memcached';
+    $driverConfig = [
+        'host'         => '127.0.0.1',
+        'port'         => 11211,
+        'saslUser'     => '',
+        'saslPassword' => ''
+    ];
+
+**redis**
+
+    $driver = 'redis';
+    $driverConfig = [
+        'host'      => '127.0.0.1',
+        'port'      => 6379,
+        'password'  => '',
+        'database'  => 0
+    ];
+
+Note: Use `memcached` or `redis` if available as `files` is not recommended for heavy usage.
+
+After selecting a driver, set the following in the builder, before the `->build();` method:
+
+    ->setRoundRobinMode(true)
+    ->setRoundRobinDriver($driver)
+    ->setRoundRobinDriverConfig($driverConfig)

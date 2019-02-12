@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MetaRush\EmailFallback;
 
 /**
@@ -63,12 +65,12 @@ class Server
         return $this;
     }
 
-    public function getPort(): int
+    public function getPort(): string
     {
         return $this->port;
     }
 
-    public function setPort(int $port)
+    public function setPort(string $port)
     {
         $this->port = $port;
 

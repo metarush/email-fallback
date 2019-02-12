@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use MetaRush\EmailFallback;
 
 require_once __DIR__ . '/Common.php';
@@ -52,12 +54,12 @@ class EmailerTest extends Common
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1'])
         ];
 
-        $this->cfg = (new EmailFallback\Config)
+        $cfg = (new EmailFallback\Config)
             ->addServers($servers)
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
-        $mailer = new EmailFallback\Emailer($this->cfg);
+        $mailer = new EmailFallback\Emailer($cfg);
 
         $mailer->From = 'sender@example.com';
         $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
@@ -86,12 +88,12 @@ class EmailerTest extends Common
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1'])
         ];
 
-        $this->cfg = (new EmailFallback\Config)
+        $cfg = (new EmailFallback\Config)
             ->addServers($servers)
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
-        $mailer = new EmailFallback\Emailer($this->cfg);
+        $mailer = new EmailFallback\Emailer($cfg);
 
         $mailer->From = 'sender@example.com';
         $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
@@ -126,12 +128,12 @@ class EmailerTest extends Common
                 ->setEncr('anotherInvalidHost')
         ];
 
-        $this->cfg = (new EmailFallback\Config)
+        $cfg = (new EmailFallback\Config)
             ->addServers($servers)
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
-        $mailer = new EmailFallback\Emailer($this->cfg);
+        $mailer = new EmailFallback\Emailer($cfg);
 
         $mailer->From = 'sender@example.com';
         $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
@@ -166,12 +168,12 @@ class EmailerTest extends Common
                 ->setEncr('anotherInvalidHost')
         ];
 
-        $this->cfg = (new EmailFallback\Config)
+        $cfg = (new EmailFallback\Config)
             ->addServers($servers)
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
-        $mailer = new EmailFallback\Emailer($this->cfg);
+        $mailer = new EmailFallback\Emailer($cfg);
 
         $mailer->From = 'sender@example.com';
         $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
@@ -181,5 +183,207 @@ class EmailerTest extends Common
         $this->expectException(EmailFallback\Exception::class);
 
         $mailer->sendEmailFallback();
+    }
+
+    public function testRoundRobinWithFilesDriver()
+    {
+        // only test if user wants to test files driver
+        if ($_ENV['MREF_FILES_ENABLED'] != 1)
+            return;
+
+        $servers = [
+            0 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_0'])
+                ->setUser($_ENV['MREF_SMTP_USER_0'])
+                ->setPass($_ENV['MREF_SMTP_PASS_0'])
+                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
+            1 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_1'])
+                ->setUser($_ENV['MREF_SMTP_USER_1'])
+                ->setPass($_ENV['MREF_SMTP_PASS_1'])
+                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
+        ];
+
+        $path = ($_ENV['MREF_FILES_PATH'] != '') ?
+            $_ENV['MREF_FILES_PATH'] : __DIR__ . '/cache_data/';
+
+        $driverConfig = [
+            'path' => $path
+        ];
+
+        $cfg = (new EmailFallback\Config)
+            ->addServers($servers)
+            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAppName($_ENV['MREF_APP_NAME'])
+            ->setRoundRobinMode(true)
+            ->setRoundRobinDriver('files')
+            ->setRoundRobinDriverConfig($driverConfig);
+
+        $repo = new EmailFallback\Repo($cfg->getRoundRobinDriver(), $cfg->getRoundRobinDriverConfig());
+
+        // seed
+        $repo->setLastServer(0);
+
+        // ----------------------------------------------
+        // send 1st email
+        // ----------------------------------------------
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->From = 'sender@example.com';
+        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
+        $mailer->Subject = 'Test inquiry 1';
+        $mailer->Body = 'Test Body 1';
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(1, $repo->getLastServer());
+
+        // ----------------------------------------------
+        // send 2nd email
+        // ----------------------------------------------
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->From = 'sender@example.com';
+        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
+        $mailer->Subject = 'Test inquiry 2';
+        $mailer->Body = 'Test Body 2';
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(0, $repo->getLastServer());
+    }
+
+    public function testRoundRobinWithMemcachedDriver()
+    {
+        // only test if user wants to test memcached driver
+        if ($_ENV['MREF_MEMCACHED_ENABLED'] != 1)
+            return;
+
+        $servers = [
+            0 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_0'])
+                ->setUser($_ENV['MREF_SMTP_USER_0'])
+                ->setPass($_ENV['MREF_SMTP_PASS_0'])
+                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
+            1 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_1'])
+                ->setUser($_ENV['MREF_SMTP_USER_1'])
+                ->setPass($_ENV['MREF_SMTP_PASS_1'])
+                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
+        ];
+
+        $driverConfig = [
+            'host' => $_ENV['MREF_MEMCACHED_HOST'],
+            'port' => (int) $_ENV['MREF_MEMCACHED_PORT'],
+        ];
+
+        $cfg = (new EmailFallback\Config)
+            ->addServers($servers)
+            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAppName($_ENV['MREF_APP_NAME'])
+            ->setRoundRobinMode(true)
+            ->setRoundRobinDriver('memcached')
+            ->setRoundRobinDriverConfig($driverConfig);
+
+        $repo = new EmailFallback\Repo($cfg->getRoundRobinDriver(), $cfg->getRoundRobinDriverConfig());
+
+        // seed
+        $repo->setLastServer(0);
+
+        // ----------------------------------------------
+        // send 1st email
+        // ----------------------------------------------
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->From = 'sender@example.com';
+        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
+        $mailer->Subject = 'Test inquiry 1';
+        $mailer->Body = 'Test Body 1';
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(1, $repo->getLastServer());
+
+        // ----------------------------------------------
+        // send 2nd email
+        // ----------------------------------------------
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->From = 'sender@example.com';
+        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
+        $mailer->Subject = 'Test inquiry 2';
+        $mailer->Body = 'Test Body 2';
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(0, $repo->getLastServer());
+    }
+
+    public function testRoundRobinWithRedisDriver()
+    {
+        // only test if user wants to test redis driver
+        if ($_ENV['MREF_REDIS_ENABLED'] != 1)
+            return;
+
+        $servers = [
+            0 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_0'])
+                ->setUser($_ENV['MREF_SMTP_USER_0'])
+                ->setPass($_ENV['MREF_SMTP_PASS_0'])
+                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
+            1 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_1'])
+                ->setUser($_ENV['MREF_SMTP_USER_1'])
+                ->setPass($_ENV['MREF_SMTP_PASS_1'])
+                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
+        ];
+
+        $driverConfig = [
+            'host'     => $_ENV['MREF_REDIS_HOST'],
+            'port'     => (int) $_ENV['MREF_REDIS_PORT'],
+            'password' => $_ENV['MREF_REDIS_PASS'],
+            'database' => (int) $_ENV['MREF_REDIS_DB']
+        ];
+
+        $cfg = (new EmailFallback\Config)
+            ->addServers($servers)
+            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAppName($_ENV['MREF_APP_NAME'])
+            ->setRoundRobinMode(true)
+            ->setRoundRobinDriver('redis')
+            ->setRoundRobinDriverConfig($driverConfig);
+
+        $repo = new EmailFallback\Repo($cfg->getRoundRobinDriver(), $cfg->getRoundRobinDriverConfig());
+
+        // seed
+        $repo->setLastServer(0);
+
+        // ----------------------------------------------
+        // send 1st email
+        // ----------------------------------------------
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->From = 'sender@example.com';
+        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
+        $mailer->Subject = 'Test inquiry 1';
+        $mailer->Body = 'Test Body 1';
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(1, $repo->getLastServer());
+
+        // ----------------------------------------------
+        // send 2nd email
+        // ----------------------------------------------
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->From = 'sender@example.com';
+        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
+        $mailer->Subject = 'Test inquiry 2';
+        $mailer->Body = 'Test Body 2';
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(0, $repo->getLastServer());
     }
 }

@@ -8,3 +8,4 @@ public/
 resources/docker/
 nbproject/
 .env
+tests/unit/cache_data/

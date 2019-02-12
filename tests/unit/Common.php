@@ -21,6 +21,8 @@ class Common extends TestCase
             . 'Instructions: Create a .env file inside tests/unit/ and use the '
             . 'content of sample.env as template';
         }
+
+        sleep(2); // put delay so mail servers won't receive "too fast" connections
     }
 
     public function tearDown(): void

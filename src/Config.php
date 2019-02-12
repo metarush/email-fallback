@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MetaRush\EmailFallback;
 
 class Config
@@ -31,6 +33,87 @@ class Config
      * @var string
      */
     private $appName;
+
+    /**
+     * Flag to round-robin servers
+     *
+     * @var bool
+     */
+    private $roundRobinMode = false;
+
+    /**
+     * If you setRoundRobinMode(true), set driver to track last server used
+     *
+     * @var string
+     */
+    private $roundRobinDriver;
+
+    /**
+     * Key-value pair of driver's config.
+     *
+     * "files" config sample:
+     *
+     * [
+     *  'path' => '/var/www/example/EmailFallbackCache/'
+     * ]
+     *
+     * "memcached" config sample:
+     *
+     * [
+     *  'host' => '127.0.0.1',
+     *  'port' => 11211,
+     *  'sasl_user' => '',
+     *  'sasl_password' => ''
+     * ]
+     *
+     * "redis" config sample:
+     *
+     * [
+     *  'host' => '127.0.0.1',
+     *  'port' => 6379,
+     *  'password' => '',
+     *  'database' => 0
+     * ]
+     *
+     * @var array
+     */
+    private $roundRobinDriverConfig = [];
+
+    public function getRoundRobinDriverConfig(): array
+    {
+        return $this->roundRobinDriverConfig;
+    }
+
+    public function setRoundRobinDriverConfig(array $roundRobinDriverConfig)
+    {
+        $this->roundRobinDriverConfig = $roundRobinDriverConfig;
+
+        return $this;
+    }
+
+    public function getRoundRobinDriver(): string
+    {
+        return $this->roundRobinDriver;
+    }
+
+    public function setRoundRobinDriver(string $roundRobinDriver)
+    {
+        $this->roundRobinDriver = $roundRobinDriver;
+
+        return $this;
+    }
+
+    public function getRoundRobinMode(): bool
+    {
+        return $this->roundRobinMode;
+    }
+
+    public function setRoundRobinMode(bool $roundRobinMode)
+    {
+        $this->roundRobinMode = $roundRobinMode;
+
+        return $this;
+    }
 
     /**
      *

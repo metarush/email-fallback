@@ -24,10 +24,20 @@ class BuilderTest extends Common
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1'])
         ];
 
+        $path = ($_ENV['MREF_FILES_PATH'] != '') ?
+            $_ENV['MREF_FILES_PATH'] : __DIR__ . '/cache_data/';
+
+        $driverConfig = [
+            'path' => $path
+        ];
+
         $mailer = (new EmailFallback\Builder($servers))
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setFromEmail($_ENV['MREF_FROM_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
+            ->setRoundRobinMode(true)
+            ->setRoundRobinDriver('files')
+            ->setRoundRobinDriverConfig($driverConfig)
             ->build();
 
         $this->assertInstanceOf(EmailFallback\Emailer::class, $mailer);
@@ -37,8 +47,8 @@ class BuilderTest extends Common
         $mailer->Subject = 'Test inquiry';
         $mailer->Body = 'Test Body';
 
-        $mailer->sendEmailFallback();
+        $serverKey = $mailer->sendEmailFallback();
 
-        $this->assertTrue(true);
+        $this->assertEquals(1, $serverKey);
     }
 }

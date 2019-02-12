@@ -20,12 +20,14 @@ class Builder extends Config
 
     public function build(): Emailer
     {
-        $cfg = (new Config)
-            ->addServers($this->servers)
-            ->setAdminEmail($this->getAdminEmail())
-            ->setFromEmail($this->getFromEmail())
-            ->setAppName($this->getAppName());
+        $this->addServers($this->servers);
 
-        return new Emailer($cfg);
+        // if not round-robin mode
+        if (!$this->getRoundRobinMode())
+            return new Emailer($this);
+
+        // if round-robin mode
+        $repo = new Repo($this->getRoundRobinDriver(), $this->getRoundRobinDriverConfig());
+        return new Emailer($this, $repo);
     }
 }

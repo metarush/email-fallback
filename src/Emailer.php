@@ -153,7 +153,8 @@ class Emailer extends PHPMailer
             . "--\r\n"
             . 'Sent from ' . __FILE__ . ' using ' . $this->Host;
 
-        $this->From = $this->cfg->getFromEmail();
+        $this->FromName = $this->cfg->getNotificationFromEmail();
+        $this->From = $this->cfg->getNotificationFromEmail();
         $this->clearAllRecipients();
         $this->addAddress($this->cfg->getAdminEmail());
         $this->Subject = $this->cfg->getAppName() . ': SMTP server(s) failed';

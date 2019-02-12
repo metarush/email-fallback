@@ -33,7 +33,7 @@ class BuilderTest extends Common
 
         $mailer = (new EmailFallback\Builder($servers))
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
-            ->setFromEmail($_ENV['MREF_FROM_EMAIL'])
+            ->setNotificationFromEmail($_ENV['MREF_FROM_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
             ->setRoundRobinDriver('files')

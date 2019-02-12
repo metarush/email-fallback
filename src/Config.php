@@ -25,7 +25,7 @@ class Config
      *
      * @var string
      */
-    private $fromEmail;
+    private $notificationFromEmail = null;
 
     /**
      * Optinally set name of app to easily identify it when error notifcations are sent
@@ -143,14 +143,14 @@ class Config
         return $this;
     }
 
-    public function getFromEmail()
+    public function getNotificationFromEmail(): ?string
     {
-        return $this->fromEmail;
+        return $this->notificationFromEmail;
     }
 
-    public function setFromEmail($fromEmail)
+    public function setNotificationFromEmail(string $notificationFromEmail)
     {
-        $this->fromEmail = $fromEmail;
+        $this->notificationFromEmail = $notificationFromEmail;
 
         return $this;
     }

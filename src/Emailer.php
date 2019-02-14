@@ -72,6 +72,12 @@ class Emailer extends PHPMailer
         return $this->successServerKey;
     }
 
+    /**
+     * Determine which SMTP host to use based on failover settings or parameter
+     *
+     * @param int|null $serverKey
+     * @return int|null|int
+     */
     private function getServerToUse(?int $serverKey = null)
     {
         // send specific key if set

@@ -18,6 +18,11 @@ class Builder extends Config
         $this->servers = $servers;
     }
 
+    /**
+     * Return an instance of the EmailFallback class
+     *
+     * @return \MetaRush\EmailFallback\Emailer
+     */
     public function build(): Emailer
     {
         $this->addServers($this->servers);

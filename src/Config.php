@@ -160,7 +160,7 @@ class Config
         return $this->appName;
     }
 
-    public function setAppName(string $appName)
+    public function setAppName(?string $appName = null)
     {
         $this->appName = $appName;
 

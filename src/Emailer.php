@@ -33,7 +33,8 @@ class Emailer extends PHPMailer
     }
 
     /**
-     * Send email using servers defined in Config then fallback to them
+     * Send email with fallback using servers defined in Config. If $serverKey
+     * is set but value is not defined in config, server key 0 will be used
      *
      * @param int|null $serverKey
      * @return int
@@ -52,7 +53,7 @@ class Emailer extends PHPMailer
         $serverKey = $this->getServerToUse($serverKey);
 
         if (!key_exists($serverKey, $servers))
-            throw new Error('Server key doesn\'t exist');
+            throw new Error('Server key ' . $serverKey . ' doesn\'t exist');
 
         for ($i = $serverKey; $i < $this->serverCount; $i++)
             $this->sendByServerKey($i);
@@ -75,14 +76,18 @@ class Emailer extends PHPMailer
     /**
      * Determine which SMTP host to use based on failover settings or parameter
      *
+     * If $serverKey is set but value not defined in config, server key 0 will be used
+     *
      * @param int|null $serverKey
      * @return int|null|int
      */
     private function getServerToUse(?int $serverKey = null)
     {
-        // send specific key if set
-        if (!is_null($serverKey))
+        // if key is set, make sure it's defined in config, if not use 0
+        if (!is_null($serverKey)) {
+            $serverKey = ($serverKey >= $this->serverCount) ? 0 : $serverKey;
             return $serverKey;
+        }
 
         // if round-robin is disabled, use first server
         if (!$this->cfg->getRoundRobinMode())
@@ -92,9 +97,10 @@ class Emailer extends PHPMailer
         if (is_null($this->repo->getLastServer()))
             return 0;
 
-        // use next server, if next server is last, go back to first server (0)
+        // use next server, if next server is last or greater than config,
+        // go back to first server 0
         $nextServer = $this->repo->getLastServer() + 1;
-        return ($this->serverCount === $nextServer) ? 0 : $nextServer;
+        return ($nextServer >= $this->serverCount) ? 0 : $nextServer;
     }
 
     /**

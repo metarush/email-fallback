@@ -59,7 +59,7 @@ Use `PHPMailer` members normally:
 
 ### SMTP server selector
 
-If you want to send using a different server, input the key (you previously defined) in the parameter:
+If you want to send using a different server, input the server key in the parameter:
 
     $mailer->sendEmailFallback(1); // send using server with key 1
 
@@ -67,7 +67,7 @@ This is useful if server `0` didn't fail but the email is slow to arrive. E.g., 
 
 **Note:**
 
-The fallback can go back from the start. If you defined 3 servers (`0`, `1`, and `2`) and you selected server `2` to send the email, it can fallback to server `0` then `1`.
+The fallback can go back from the start. If you defined 3 servers (`0`, `1`, and `2`) and you selected server `2` to send the email, it can fallback to server `0` then `1`. If you enter a key that does not exist in the config, `0` will be used.
 
 If all servers fail, an exception `EmailFallback\Exception` will be thrown by `sendEmailFallback()`.
 

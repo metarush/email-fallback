@@ -40,7 +40,7 @@ Initialize library:
     $mailer = (new EmailFallback\Builder($servers))
         ->setAdminEmail('admin@example.com') // optional: get fallback notifications
         ->setNotificationFromEmail('admin@example.com') // if you set an admin email, you must set this
-        ->setAppName('myapp') // optional: used on fallback notifications        
+        ->setAppName('myapp') // optional: used on fallback notifications
         ->build();
 
 Use `PHPMailer` members normally:
@@ -77,7 +77,7 @@ If all servers fail, an exception `EmailFallback\Exception` will be thrown by `s
 
 Use round-robin mode to distribute the load to all SMTP hosts.
 
-To enable round-robin mode, you must use a storage driver to track the last server used to send email. 
+To enable round-robin mode, you must use a storage driver to track the last server used to send email.
 
 #### Available drivers and their config:
 
@@ -98,6 +98,8 @@ To enable round-robin mode, you must use a storage driver to track the last serv
         'saslUser'     => '',
         'saslPassword' => ''
     ];
+
+Note: Only single server/non-distriubuted memcached is supported at the moment.
 
 **redis**
 

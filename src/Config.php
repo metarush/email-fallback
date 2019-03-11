@@ -44,9 +44,9 @@ class Config
     /**
      * If you setRoundRobinMode(true), set driver to track last server used
      *
-     * @var string
+     * @var string|null
      */
-    private $roundRobinDriver;
+    private $roundRobinDriver = null;
 
     /**
      * Key-value pair of driver's config.
@@ -91,12 +91,12 @@ class Config
         return $this;
     }
 
-    public function getRoundRobinDriver(): string
+    public function getRoundRobinDriver(): ?string
     {
         return $this->roundRobinDriver;
     }
 
-    public function setRoundRobinDriver(string $roundRobinDriver)
+    public function setRoundRobinDriver(?string $roundRobinDriver)
     {
         $this->roundRobinDriver = $roundRobinDriver;
 

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.3
+
+- Allow null return value in getRoundRobinDriver() and null param in setRoundRobinDriver() config method
+
 ## 1.0.2
 
 - In the sendEmailFallback() method, if $serverKey param is set but value is

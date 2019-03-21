@@ -14,21 +14,21 @@ class Config
     private $servers;
 
     /**
-     * Optinally set admin email to get error notifications
+     * Optionally set admin email to get error notifications
      *
      * @var string
      */
     private $adminEmail;
 
     /**
-     * If you set an admin email, you must set a from email for error notications
+     * If you set an admin email, you must set a from email for error notifications
      *
      * @var string
      */
     private $notificationFromEmail = null;
 
     /**
-     * Optinally set name of app to easily identify it when error notifcations are sent
+     * Optionally set name of app to easily identify it when error notifications are sent
      *
      * @var string
      */

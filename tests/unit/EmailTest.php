@@ -21,16 +21,15 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry';
-        $mailer->Body = 'Test Body';
 
         $serverKey = $mailer->sendEmailFallback();
 
@@ -55,16 +54,15 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry';
-        $mailer->Body = 'Test Body';
 
         $serverKey = $mailer->sendEmailFallback();
 
@@ -89,16 +87,15 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry';
-        $mailer->Body = 'Test Body';
 
         $serverKey = $mailer->sendEmailFallback(1); // define server key to use
 
@@ -129,16 +126,15 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry';
-        $mailer->Body = 'Test Body';
 
         $serverKey = $mailer->sendEmailFallback(1); // define server key to use
 
@@ -169,16 +165,15 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry';
-        $mailer->Body = 'Test Body';
 
         $this->expectException(EmailFallback\Exception::class);
 
@@ -214,7 +209,11 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
@@ -231,23 +230,15 @@ class EmailerTest extends Common
         // ----------------------------------------------
         $mailer = new EmailFallback\Emailer($cfg, $repo);
 
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry 1';
-        $mailer->Body = 'Test Body 1';
-
         $mailer->sendEmailFallback();
         $this->assertEquals(1, $repo->getLastServer());
 
         // ----------------------------------------------
         // send 2nd email
         // ----------------------------------------------
+        $cfg->setSubject('Test inquiry 2');
+        $cfg->setBody('Test Body 2');
         $mailer = new EmailFallback\Emailer($cfg, $repo);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry 2';
-        $mailer->Body = 'Test Body 2';
 
         $mailer->sendEmailFallback();
         $this->assertEquals(0, $repo->getLastServer());
@@ -280,7 +271,11 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
@@ -297,23 +292,15 @@ class EmailerTest extends Common
         // ----------------------------------------------
         $mailer = new EmailFallback\Emailer($cfg, $repo);
 
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry 1';
-        $mailer->Body = 'Test Body 1';
-
         $mailer->sendEmailFallback();
         $this->assertEquals(1, $repo->getLastServer());
 
         // ----------------------------------------------
         // send 2nd email
         // ----------------------------------------------
+        $cfg->setSubject('Test inquiry 2');
+        $cfg->setBody('Test Body 2');
         $mailer = new EmailFallback\Emailer($cfg, $repo);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry 2';
-        $mailer->Body = 'Test Body 2';
 
         $mailer->sendEmailFallback();
         $this->assertEquals(0, $repo->getLastServer());
@@ -348,7 +335,11 @@ class EmailerTest extends Common
         ];
 
         $cfg = (new EmailFallback\Config)
-            ->addServers($servers)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
@@ -365,11 +356,6 @@ class EmailerTest extends Common
         // ----------------------------------------------
         $mailer = new EmailFallback\Emailer($cfg, $repo);
 
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry 1';
-        $mailer->Body = 'Test Body 1';
-
         $mailer->sendEmailFallback();
         $this->assertEquals(1, $repo->getLastServer());
 
@@ -377,11 +363,6 @@ class EmailerTest extends Common
         // send 2nd email
         // ----------------------------------------------
         $mailer = new EmailFallback\Emailer($cfg, $repo);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry 2';
-        $mailer->Body = 'Test Body 2';
 
         $mailer->sendEmailFallback();
         $this->assertEquals(0, $repo->getLastServer());

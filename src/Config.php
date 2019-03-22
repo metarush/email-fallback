@@ -303,7 +303,7 @@ class Config
         return $this->servers;
     }
 
-    public function addServers(array $servers)
+    public function setServers(array $servers)
     {
         $this->servers = $servers;
         return $this;

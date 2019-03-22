@@ -6,17 +6,6 @@ namespace MetaRush\EmailFallback;
 
 class Builder extends Config
 {
-    /**
-     * Array of Server objects
-     *
-     * @var array
-     */
-    private $servers;
-
-    public function __construct(array $servers)
-    {
-        $this->servers = $servers;
-    }
 
     /**
      * Return an instance of the EmailFallback class
@@ -25,8 +14,6 @@ class Builder extends Config
      */
     public function build(): Emailer
     {
-        $this->addServers($this->servers);
-
         // if not round-robin mode
         if (!$this->getRoundRobinMode())
             return new Emailer($this);

@@ -45,7 +45,8 @@ You must start the array key with `0` then increment by `1`.
 Initialize library:
 
 ```php
-$mailer = (new EmailFallback\Builder($servers))
+$mailer = (new EmailFallback\Builder)
+    ->setServers($servers) // array of Server objects
     ->setFromEmail(string) // "From" email
     ->setTos(array) // array of "To" email
     ->setSubject(string) // email subject

@@ -4,7 +4,6 @@
 
 - Add helpers methods for composing email, related PHPMailer methods are
 overridden.
-
     - `setFromEmail()`
     - `setTos()`
     - `setSubject()`
@@ -15,6 +14,8 @@ overridden.
     - `setReplyTos()`
     - `setAttachments()`
     - `setDebugLevel()`
+- Rename method `addServers()` to `setServers()`
+- Remove server parameter in Builder class constructor
 
 ## 1.0.3
 

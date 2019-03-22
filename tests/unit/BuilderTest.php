@@ -31,7 +31,12 @@ class BuilderTest extends Common
             'path' => $path
         ];
 
-        $mailer = (new EmailFallback\Builder($servers))
+        $mailer = (new EmailFallback\Builder)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setNotificationFromEmail($_ENV['MREF_FROM_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
@@ -41,12 +46,6 @@ class BuilderTest extends Common
             ->build();
 
         $this->assertInstanceOf(EmailFallback\Emailer::class, $mailer);
-
-        $mailer->From = 'sender@example.com';
-        $mailer->addAddress($_ENV['MREF_ADMIN_EMAIL']);
-        $mailer->Subject = 'Test inquiry';
-        $mailer->Body = 'Test Body';
-
         $serverKey = $mailer->sendEmailFallback();
 
         $this->assertEquals(1, $serverKey);
@@ -76,7 +75,8 @@ class BuilderTest extends Common
             'path' => $path
         ];
 
-        $mailer = (new EmailFallback\Builder($servers))
+        $mailer = (new EmailFallback\Builder)
+            ->setServers($servers)
             ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
             ->setNotificationFromEmail($_ENV['MREF_FROM_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])

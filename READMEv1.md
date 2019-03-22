@@ -1,5 +1,4 @@
-Note: This documentation is applicable for `v2` only.
-For older documentation, refer to `READMEv(n).md`
+Note: This documentation is applicable for `v1` only
 
 ---
 
@@ -46,22 +45,20 @@ Initialize library:
 
 ```php
 $mailer = (new EmailFallback\Builder($servers))
-    ->setFromEmail(string) // "From" email
-    ->setTos(array) // array of "To" email
-    ->setSubject(string) // email subject
-    ->setBody(string) // email body
-    ->setFromName(string) // optional: "From Name"
-    ->setCcs(array) // optional: array of "CC" emails
-    ->setBccs(array) // optional: array of "BCC" emails
-    ->setReplyTos(array) // optional: array of "Reply to" emails
-    ->setAttachments(array) // optional: array of files already on the server
-    ->setDebugLevel(int) // optional: PHPMailer debug level from 0 - 4. Default: 0
-    ->setAdminEmail(string) // optional: email to get notifications if fallback occurs
-    ->setNotificationFromEmail(string) // if you set an admin email, you must a "from" email for notifications
-    ->setAppName(string) // optional: app name used on notifications
-    ->build();
+            ->setAdminEmail('admin@example.com') // optional: get fallback notifications
+            ->setNotificationFromEmail('admin@example.com') // if you set an admin email, you must set this
+            ->setAppName('myapp') // optional: used on fallback notifications
+            ->build();
 ```
 
+Use `PHPMailer` members normally:
+
+```php
+$mailer->From = 'sender@example.com';
+$mailer->addAddress('receiver@example.com');
+$mailer->Subject = 'Test Subject';
+$mailer->Body = 'Test Body';
+```
 
 **Important:** You must use the following method to send email with fallback:
 

@@ -30,6 +30,39 @@ class Emailer extends PHPMailer
         // PHPMailer stuff
         $this->SMTPAuth = true;
         $this->isSMTP();
+
+        // ----------------------------------------------
+        // translate config vars to PHPMailer
+        // ----------------------------------------------
+
+        $this->SMTPDebug = $cfg->getDebugLevel();
+
+        $this->clearAllRecipients();
+
+        $this->setFrom($cfg->getFromEmail(), $cfg->getFromName());
+
+        $tos = $cfg->getTos();
+        foreach ($tos as $to)
+            $this->addAddress($to);
+
+        $ccs = $cfg->getCcs();
+        foreach ($ccs as $cc)
+            $this->addCC($cc);
+
+        $bccs = $cfg->getBccs();
+        foreach ($bccs as $bcc)
+            $this->addBCC($bcc);
+
+        $repyTos = $cfg->getReplyTos();
+        foreach ($repyTos as $replyTo)
+            $this->addReplyTo($replyTo);
+
+        $attachments = $cfg->getAttachments();
+        foreach ($attachments as $attachment)
+            $this->addAttachment($attachment);
+
+        $this->Subject = $cfg->getSubject();
+        $this->Body = $cfg->getBody();
     }
 
     /**

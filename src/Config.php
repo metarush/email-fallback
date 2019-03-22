@@ -79,6 +79,188 @@ class Config
      */
     private $roundRobinDriverConfig = [];
 
+    /**
+     * Name of From address
+     *
+     * @var string
+     */
+    private $fromName = null;
+
+    /**
+     * From email
+     *
+     * @var string
+     */
+    private $fromEmail;
+
+    /**
+     * Array of Tos
+     *
+     * @var array
+     */
+    private $tos;
+
+    /**
+     * Array of CCs
+     *
+     * @var array
+     */
+    private $ccs = [];
+
+    /**
+     * Array of BCCs
+     *
+     * @var array
+     */
+    private $bccs = [];
+
+    /**
+     * Email subject
+     *
+     * @var string
+     */
+    private $subject;
+
+    /**
+     * Email body
+     *
+     * @var string
+     */
+    private $body;
+
+    /**
+     * Array of reply-to emails
+     *
+     * @var array
+     */
+    private $replyTos = [];
+
+    /**
+     * Array of attachments
+     *
+     * @var ?array
+     */
+    private $attachments = [];
+
+    /**
+     * PHPMailer debug level
+     *
+     * https://github.com/PHPMailer/PHPMailer/wiki/SMTP-Debugging
+     *
+     * @var int
+     */
+    private $debugLevel = 0;
+
+    public function getDebugLevel(): int
+    {
+        return $this->debugLevel;
+    }
+
+    public function setDebugLevel(int $debugLevel)
+    {
+        $this->debugLevel = $debugLevel;
+        return $this;
+    }
+
+    public function getAttachments(): array
+    {
+        return $this->attachments;
+    }
+
+    public function setAttachments(array $attachments)
+    {
+        $this->attachments = $attachments;
+        return $this;
+    }
+
+    public function getReplyTos(): array
+    {
+        return $this->replyTos;
+    }
+
+    public function setReplyTos(array $replyTos)
+    {
+        $this->replyTos = $replyTos;
+        return $this;
+    }
+
+    public function getBody(): string
+    {
+        return $this->body;
+    }
+
+    public function setBody(string $body)
+    {
+        $this->body = $body;
+        return $this;
+    }
+
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(string $subject)
+    {
+        $this->subject = $subject;
+        return $this;
+    }
+
+    public function getBccs(): array
+    {
+        return $this->bccs;
+    }
+
+    public function setBccs(array $bccs)
+    {
+        $this->bccs = $bccs;
+        return $this;
+    }
+
+    public function getCcs(): array
+    {
+        return $this->ccs;
+    }
+
+    public function setCcs(array $ccs)
+    {
+        $this->ccs = $ccs;
+        return $this;
+    }
+
+    public function getTos(): array
+    {
+        return $this->tos;
+    }
+
+    public function setTos(array $tos)
+    {
+        $this->tos = $tos;
+        return $this;
+    }
+
+    public function getFromEmail(): string
+    {
+        return $this->fromEmail;
+    }
+
+    public function setFromEmail(string $fromEmail)
+    {
+        $this->fromEmail = $fromEmail;
+        return $this;
+    }
+
+    public function getFromName(): string
+    {
+        return $this->fromName ?? $this->fromEmail;
+    }
+
+    public function setFromName(string $fromName)
+    {
+        $this->fromName = $fromName;
+        return $this;
+    }
+
     public function getRoundRobinDriverConfig(): array
     {
         return $this->roundRobinDriverConfig;
@@ -87,7 +269,6 @@ class Config
     public function setRoundRobinDriverConfig(array $roundRobinDriverConfig)
     {
         $this->roundRobinDriverConfig = $roundRobinDriverConfig;
-
         return $this;
     }
 
@@ -99,7 +280,6 @@ class Config
     public function setRoundRobinDriver(?string $roundRobinDriver)
     {
         $this->roundRobinDriver = $roundRobinDriver;
-
         return $this;
     }
 
@@ -111,7 +291,6 @@ class Config
     public function setRoundRobinMode(bool $roundRobinMode)
     {
         $this->roundRobinMode = $roundRobinMode;
-
         return $this;
     }
 
@@ -127,7 +306,6 @@ class Config
     public function addServers(array $servers)
     {
         $this->servers = $servers;
-
         return $this;
     }
 
@@ -139,7 +317,6 @@ class Config
     public function setAdminEmail(string $adminEmail)
     {
         $this->adminEmail = $adminEmail;
-
         return $this;
     }
 
@@ -151,7 +328,6 @@ class Config
     public function setNotificationFromEmail(string $notificationFromEmail)
     {
         $this->notificationFromEmail = $notificationFromEmail;
-
         return $this;
     }
 
@@ -163,7 +339,6 @@ class Config
     public function setAppName(?string $appName = null)
     {
         $this->appName = $appName;
-
         return $this;
     }
 }

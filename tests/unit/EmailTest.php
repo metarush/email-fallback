@@ -26,7 +26,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
@@ -59,7 +59,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
@@ -92,7 +92,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
@@ -131,7 +131,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
@@ -170,7 +170,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME']);
 
         $mailer = new EmailFallback\Emailer($cfg);
@@ -214,7 +214,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
             ->setRoundRobinDriver('files')
@@ -276,7 +276,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
             ->setRoundRobinDriver('memcached')
@@ -340,7 +340,7 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
             ->setRoundRobinDriver('redis')

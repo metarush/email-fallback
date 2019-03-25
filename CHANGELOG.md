@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.0.0
+
+- Replace config method `setAdminEmail()` with `setAdminEmails()`
+
 ## 2.0.0
 
 - Add helpers methods for composing email, related PHPMailer methods are

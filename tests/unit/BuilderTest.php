@@ -37,7 +37,7 @@ class BuilderTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setNotificationFromEmail($_ENV['MREF_FROM_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)
@@ -77,7 +77,7 @@ class BuilderTest extends Common
 
         $mailer = (new EmailFallback\Builder)
             ->setServers($servers)
-            ->setAdminEmail($_ENV['MREF_ADMIN_EMAIL'])
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
             ->setNotificationFromEmail($_ENV['MREF_FROM_EMAIL'])
             ->setAppName($_ENV['MREF_APP_NAME'])
             ->setRoundRobinMode(true)

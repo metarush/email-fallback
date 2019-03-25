@@ -1,4 +1,4 @@
-Note: This documentation is applicable for `v3` only.
+Note: This documentation is applicable for `v2` only.
 For older documentation, refer to `READMEv(n).md`
 
 ---
@@ -57,7 +57,7 @@ $mailer = (new EmailFallback\Builder)
     ->setReplyTos(array) // optional: array of "Reply to" emails
     ->setAttachments(array) // optional: array of files already on the server
     ->setDebugLevel(int) // optional: PHPMailer debug level from 0 - 4. Default: 0
-    ->setAdminEmails(array) // optional: array of emails that will be notified if fallback occurs
+    ->setAdminEmail(string) // optional: email to get notifications if fallback occurs
     ->setNotificationFromEmail(string) // if you set an admin email, you must a "from" email for notifications
     ->setAppName(string) // optional: app name used on notifications
     ->build();

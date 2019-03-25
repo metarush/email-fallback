@@ -14,11 +14,11 @@ class Config
     private $servers;
 
     /**
-     * Optionally set admin email to get error notifications
+     * Optionally set admin emails to get error notifications
      *
-     * @var string
+     * @var ?array
      */
-    private $adminEmail;
+    private $adminEmails;
 
     /**
      * If you set an admin email, you must set a from email for error notifications
@@ -309,14 +309,14 @@ class Config
         return $this;
     }
 
-    public function getAdminEmail(): ?string
+    public function getAdminEmails(): ?array
     {
-        return $this->adminEmail;
+        return $this->adminEmails;
     }
 
-    public function setAdminEmail(string $adminEmail)
+    public function setAdminEmails(array $adminEmails)
     {
-        $this->adminEmail = $adminEmail;
+        $this->adminEmails = $adminEmails;
         return $this;
     }
 

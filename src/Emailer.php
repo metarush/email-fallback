@@ -181,7 +181,7 @@ class Emailer extends PHPMailer
      */
     private function notifyAdmin(): void
     {
-        if (!$this->cfg->getAdminEmail())
+        if (!$this->cfg->getAdminEmails())
             return;
 
         $ex = new \Exception;
@@ -201,7 +201,10 @@ class Emailer extends PHPMailer
         $this->FromName = $this->cfg->getNotificationFromEmail();
         $this->From = $this->cfg->getNotificationFromEmail();
         $this->clearAllRecipients();
-        $this->addAddress($this->cfg->getAdminEmail());
+
+        $adminEmails = $this->cfg->getAdminEmails();
+        foreach ($adminEmails as $adminEmail)
+            $this->addAddress($adminEmail);
         $this->Subject = $this->cfg->getAppName() . ': SMTP server(s) failed';
 
         $this->Body = $msg;

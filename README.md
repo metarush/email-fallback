@@ -1,8 +1,3 @@
-Note: This documentation is applicable for `v3` only.
-For older documentation, refer to `READMEv(n).md`
-
----
-
 # metarush/email-fallback
 
 Send email via SMTP host, if it fails, fallback/failover to another SMTP host.
@@ -28,13 +23,13 @@ $servers = [
         ->setHost('host1')
         ->setUser('user1')
         ->setPass('pass2')
-        ->setPort('25')
+        ->setPort(25)
         ->setEncr('TLS'),
     1 => (new EmailFallback\Server)
         ->setHost('host2')
         ->setUser('user2')
         ->setPass('pass2')
-        ->setPort('25')
+        ->setPort(25)
         ->setEncr('TLS')
 ];
 ```

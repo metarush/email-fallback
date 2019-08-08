@@ -1,40 +1,55 @@
 # CHANGELOG
 
-## 3.0.0
+## 4.0.0 - 2019-08-09
 
-- Replace config method `setAdminEmail()` with `setAdminEmails()`
+- Change `setPort()` and `getPort()` type to `int` in `Server` class.
 
-## 2.0.0
+## 3.0.0 - 2019-03-25
 
-- Add helpers methods for composing email, related PHPMailer methods are
-overridden.
-    - `setFromEmail()`
-    - `setTos()`
-    - `setSubject()`
-    - `setBody()`
-    - `setFromName()`
-    - `setCcs()`
-    - `setBccs()`
-    - `setReplyTos()`
-    - `setAttachments()`
-    - `setDebugLevel()`
+### Changed
+
+- Replace config method `setAdminEmail()` with `setAdminEmails()`.
+
+## 2.0.0 - 2019-03-22
+
+### Added
+
+- Add helpers methods for composing email, related `PHPMailer` methods are overridden.
+
+  - `setFromEmail()`
+  - `setTos()`
+  - `setSubject()`
+  - `setBody()`
+  - `setFromName()`
+  - `setCcs()`
+  - `setBccs()`
+  - `setReplyTos()`
+  - `setAttachments()`
+  - `setDebugLevel()`
+
+### Changed
+
 - Rename method `addServers()` to `setServers()`
-- Remove server parameter in Builder class constructor
+- Remove server parameter in `Builder` class constructor
 
-## 1.0.3
+## 1.0.3 - 2019-03-12
 
-- Allow null return value in `getRoundRobinDriver()` and null param in
-`setRoundRobinDriver()` config method
+### Fixed
 
-## 1.0.2
+- Allow null return value in `getRoundRobinDriver()` and null param in `setRoundRobinDriver()` config method.
 
-- In the `sendEmailFallback()` method, if `$serverKey` param is set but value is
-not defined in config, server key 0 will be used
+## 1.0.2 - 2019-02-17
 
-## 1.0.1
+### Fixed
 
-- Allow null parameter in `setAppName()` config method
+- In the `sendEmailFallback()` method, if `$serverKey` param is set but value is not defined in config, server key 0 will be used.
 
-## 1.0.0
+## 1.0.1 - 2019-02-15
+
+### Fixed
+
+- Allow null parameter in `setAppName()` config method.
+
+## 1.0.0 - 2019-02-03
 
 - Release first version.

@@ -65,12 +65,12 @@ class Server
         return $this;
     }
 
-    public function getPort(): string
+    public function getPort(): int
     {
         return $this->port;
     }
 
-    public function setPort(string $port)
+    public function setPort(int $port)
     {
         $this->port = $port;
 

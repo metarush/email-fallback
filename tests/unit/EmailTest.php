@@ -19,7 +19,7 @@ class EmailerTest extends Common
                 ->setHost($_ENV['MREF_SMTP_HOST_0'])
                 ->setUser($_ENV['MREF_SMTP_USER_0'])
                 ->setPass($_ENV['MREF_SMTP_PASS_0'])
-                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_0'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_0'])
         ];
 
@@ -46,13 +46,13 @@ class EmailerTest extends Common
                 ->setHost('deliberateInvalidHost')
                 ->setUser('invalid')
                 ->setPass('invalid')
-                ->setPort('123')
+                ->setPort(123)
                 ->setEncr('invalid'),
             1 => (new EmailFallback\Server)
                 ->setHost($_ENV['MREF_SMTP_HOST_1'])
                 ->setUser($_ENV['MREF_SMTP_USER_1'])
                 ->setPass($_ENV['MREF_SMTP_PASS_1'])
-                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1'])
         ];
 
@@ -81,13 +81,13 @@ class EmailerTest extends Common
                 ->setHost($_ENV['MREF_SMTP_HOST_0'])
                 ->setUser($_ENV['MREF_SMTP_USER_0'])
                 ->setPass($_ENV['MREF_SMTP_PASS_0'])
-                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_0'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
             1 => (new EmailFallback\Server)
                 ->setHost($_ENV['MREF_SMTP_HOST_1'])
                 ->setUser($_ENV['MREF_SMTP_USER_1'])
                 ->setPass($_ENV['MREF_SMTP_PASS_1'])
-                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1'])
         ];
 
@@ -114,19 +114,19 @@ class EmailerTest extends Common
                 ->setHost($_ENV['MREF_SMTP_HOST_1'])
                 ->setUser($_ENV['MREF_SMTP_USER_1'])
                 ->setPass($_ENV['MREF_SMTP_PASS_1'])
-                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
             1 => (new EmailFallback\Server)
                 ->setHost('deliberateInvalidHost')
                 ->setUser('deliberateInvalidHost')
                 ->setPass('deliberateInvalidHost')
-                ->setPort('123')
+                ->setPort(123)
                 ->setEncr('deliberateInvalidHost'),
             2 => (new EmailFallback\Server)
                 ->setHost('anotherInvalidHost')
                 ->setUser('anotherInvalidHost')
                 ->setPass('anotherInvalidHost')
-                ->setPort('123')
+                ->setPort(123)
                 ->setEncr('anotherInvalidHost')
         ];
 
@@ -153,19 +153,19 @@ class EmailerTest extends Common
                 ->setHost('deliberateInvalidHost')
                 ->setUser('deliberateInvalidHost')
                 ->setPass('deliberateInvalidHost')
-                ->setPort('123')
+                ->setPort(123)
                 ->setEncr('deliberateInvalidHost'),
             1 => (new EmailFallback\Server)
                 ->setHost('AnotherFailedHost')
                 ->setUser('AnotherFailedHost')
                 ->setPass('AnotherFailedHost')
-                ->setPort('123')
+                ->setPort(123)
                 ->setEncr('AnotherFailedHost'),
             2 => (new EmailFallback\Server)
                 ->setHost('anotherInvalidHost')
                 ->setUser('anotherInvalidHost')
                 ->setPass('anotherInvalidHost')
-                ->setPort('123')
+                ->setPort(123)
                 ->setEncr('anotherInvalidHost')
         ];
 
@@ -196,13 +196,13 @@ class EmailerTest extends Common
                 ->setHost($_ENV['MREF_SMTP_HOST_0'])
                 ->setUser($_ENV['MREF_SMTP_USER_0'])
                 ->setPass($_ENV['MREF_SMTP_PASS_0'])
-                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_0'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
             1 => (new EmailFallback\Server)
                 ->setHost($_ENV['MREF_SMTP_HOST_1'])
                 ->setUser($_ENV['MREF_SMTP_USER_1'])
                 ->setPass($_ENV['MREF_SMTP_PASS_1'])
-                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
         ];
 
@@ -260,13 +260,13 @@ class EmailerTest extends Common
                 ->setHost($_ENV['MREF_SMTP_HOST_0'])
                 ->setUser($_ENV['MREF_SMTP_USER_0'])
                 ->setPass($_ENV['MREF_SMTP_PASS_0'])
-                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_0'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
             1 => (new EmailFallback\Server)
                 ->setHost($_ENV['MREF_SMTP_HOST_1'])
                 ->setUser($_ENV['MREF_SMTP_USER_1'])
                 ->setPass($_ENV['MREF_SMTP_PASS_1'])
-                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
         ];
 
@@ -322,13 +322,13 @@ class EmailerTest extends Common
                 ->setHost($_ENV['MREF_SMTP_HOST_0'])
                 ->setUser($_ENV['MREF_SMTP_USER_0'])
                 ->setPass($_ENV['MREF_SMTP_PASS_0'])
-                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_0'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
             1 => (new EmailFallback\Server)
                 ->setHost($_ENV['MREF_SMTP_HOST_1'])
                 ->setUser($_ENV['MREF_SMTP_USER_1'])
                 ->setPass($_ENV['MREF_SMTP_PASS_1'])
-                ->setPort($_ENV['MREF_SMTP_PORT_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
                 ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
         ];
 

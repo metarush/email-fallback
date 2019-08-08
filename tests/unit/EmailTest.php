@@ -6,6 +6,9 @@ use MetaRush\EmailFallback;
 
 require_once __DIR__ . '/Common.php';
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class EmailerTest extends Common
 {
 
@@ -71,6 +74,8 @@ class EmailerTest extends Common
 
     public function testSendEmailUsingSpecificServer()
     {
+        \sleep(10); // allowance for Mailtrap's limit
+
         $servers = [
             0 => (new EmailFallback\Server)
                 ->setHost($_ENV['MREF_SMTP_HOST_0'])

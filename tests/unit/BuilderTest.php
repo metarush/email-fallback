@@ -4,6 +4,9 @@ use MetaRush\EmailFallback;
 
 require_once __DIR__ . '/Common.php';
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class BuilderTest extends Common
 {
 

@@ -1,6 +1,14 @@
 # CHANGELOG
 
+## 4.0.1 - 2019-08-10
+
+### Fixed
+
+- Fix code coverage so it's 100%.
+
 ## 4.0.0 - 2019-08-09
+
+### Changed
 
 - Change `setPort()` and `getPort()` type to `int` in `Server` class.
 
@@ -15,7 +23,7 @@
 ### Added
 
 - Add helpers methods for composing email, related `PHPMailer` methods are overridden.
-
+  
   - `setFromEmail()`
   - `setTos()`
   - `setSubject()`

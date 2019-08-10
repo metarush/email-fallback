@@ -54,6 +54,41 @@ class BuilderTest extends Common
         $this->assertEquals(1, $serverKey);
     }
 
+    public function testBuilderWithoutFallback()
+    {
+        $servers = [
+            0 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_0'])
+                ->setUser($_ENV['MREF_SMTP_USER_0'])
+                ->setPass($_ENV['MREF_SMTP_PASS_0'])
+                ->setPort($_ENV['MREF_SMTP_PORT_0'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_0'])
+        ];
+
+        $path = ($_ENV['MREF_FILES_PATH'] != '') ?
+            $_ENV['MREF_FILES_PATH'] : __DIR__ . '/cache_data/';
+
+        $driverConfig = [
+            'path' => $path
+        ];
+
+        $mailer = (new EmailFallback\Builder)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setNotificationFromEmail($_ENV['MREF_FROM_EMAIL'])
+            ->setAppName($_ENV['MREF_APP_NAME'])
+            ->build();
+
+        $this->assertInstanceOf(EmailFallback\Emailer::class, $mailer);
+        $serverKey = $mailer->sendEmailFallback();
+
+        $this->assertEquals(0, $serverKey);
+    }
+
     public function testConfigHelpers()
     {
         $servers = [

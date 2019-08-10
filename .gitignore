@@ -5,7 +5,8 @@ phpunit.php
 .phpunit.result.cache
 vendor/
 public/
-resources/docker/
+resources/
 nbproject/
 .env
 tests/unit/cache_data/
+tests/coverage/

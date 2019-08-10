@@ -23,14 +23,19 @@ class EmailerTest extends Common
                 ->setEncr($_ENV['MREF_SMTP_ENCR_0'])
         ];
 
+        $attachments = [
+            0 => __DIR__ . '/samples/sample-attachment-1.txt',
+            1 => __DIR__ . '/samples/sample-attachment-2.txt',
+        ];
+
         $cfg = (new EmailFallback\Config)
             ->setServers($servers)
             ->setFromEmail('sender@example.com')
+            ->setFromName('foo sender')
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
-            ->setAppName($_ENV['MREF_APP_NAME']);
+            ->setAttachments($attachments);
 
         $mailer = new EmailFallback\Emailer($cfg);
 
@@ -371,5 +376,140 @@ class EmailerTest extends Common
 
         $mailer->sendEmailFallback();
         $this->assertEquals(0, $repo->getLastServer());
+    }
+
+    public function testNoServerDefinedException()
+    {
+        $this->expectExceptionMessage('At least 1 SMTP server must be defined');
+
+        $servers = [];
+
+        $cfg = (new EmailFallback\Config)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body');
+
+        $mailer = new EmailFallback\Emailer($cfg);
+
+        $mailer->sendEmailFallback();
+    }
+
+    public function testNoServerKeyException()
+    {
+        $this->expectExceptionMessage('Server key 0 doesn\'t exist');
+
+        $servers = [
+            1 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_1'])
+                ->setUser($_ENV['MREF_SMTP_USER_1'])
+                ->setPass($_ENV['MREF_SMTP_PASS_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
+        ];
+
+        $cfg = (new EmailFallback\Config)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body');
+
+        $mailer = new EmailFallback\Emailer($cfg);
+
+        $mailer->sendEmailFallback(1);
+    }
+
+    public function testSendFailedWithoutAdminEmail()
+    {
+        $servers = [
+            0 => (new EmailFallback\Server)
+                ->setHost('deliberateInvalidHost')
+                ->setUser('invalid')
+                ->setPass('invalid')
+                ->setPort(123)
+                ->setEncr('invalid'),
+            1 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_1'])
+                ->setUser($_ENV['MREF_SMTP_USER_1'])
+                ->setPass($_ENV['MREF_SMTP_PASS_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_1'])
+        ];
+
+        $cfg = (new EmailFallback\Config)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body');
+
+        $mailer = new EmailFallback\Emailer($cfg);
+
+        $serverKey = $mailer->sendEmailFallback();
+
+        $this->assertEquals(1, $serverKey);
+    }
+
+    public function testRoundRobinFirstUseWithFilesDriver()
+    {
+        // only test if user wants to test files driver
+        if ($_ENV['MREF_FILES_ENABLED'] != 1)
+            return;
+
+        $servers = [
+            0 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_0'])
+                ->setUser($_ENV['MREF_SMTP_USER_0'])
+                ->setPass($_ENV['MREF_SMTP_PASS_0'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_0'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_0']),
+            1 => (new EmailFallback\Server)
+                ->setHost($_ENV['MREF_SMTP_HOST_1'])
+                ->setUser($_ENV['MREF_SMTP_USER_1'])
+                ->setPass($_ENV['MREF_SMTP_PASS_1'])
+                ->setPort((int) $_ENV['MREF_SMTP_PORT_1'])
+                ->setEncr($_ENV['MREF_SMTP_ENCR_1']),
+        ];
+
+        $path = ($_ENV['MREF_FILES_PATH'] != '') ?
+            $_ENV['MREF_FILES_PATH'] : __DIR__ . '/cache_data/';
+
+        $driverConfig = [
+            'path' => $path
+        ];
+
+        $cfg = (new EmailFallback\Config)
+            ->setServers($servers)
+            ->setFromEmail('sender@example.com')
+            ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setSubject('Test Inquiry')
+            ->setBody('Test Body')
+            ->setAdminEmails([$_ENV['MREF_ADMIN_EMAIL']])
+            ->setAppName($_ENV['MREF_APP_NAME'])
+            ->setRoundRobinMode(true)
+            ->setRoundRobinDriver('files')
+            ->setRoundRobinDriverConfig($driverConfig);
+
+        $repo = new EmailFallback\Repo($cfg->getRoundRobinDriver(), $cfg->getRoundRobinDriverConfig());
+
+        // ----------------------------------------------
+        // send 1st email
+        // ----------------------------------------------
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(0, $repo->getLastServer());
+
+        // ----------------------------------------------
+        // send 2nd email
+        // ----------------------------------------------
+        $cfg->setSubject('Test inquiry 2');
+        $cfg->setBody('Test Body 2');
+        $mailer = new EmailFallback\Emailer($cfg, $repo);
+
+        $mailer->sendEmailFallback();
+        $this->assertEquals(1, $repo->getLastServer());
     }
 }

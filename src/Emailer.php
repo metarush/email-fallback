@@ -61,6 +61,10 @@ class Emailer extends PHPMailer
         foreach ($attachments as $attachment)
             $this->addAttachment($attachment);
 
+        $customHeaders = $cfg->getCustomHeaders();
+        foreach ($customHeaders as $k => $v)
+            $this->addCustomHeader($k, $v);
+
         $this->Subject = $cfg->getSubject();
         $this->Body = $cfg->getBody();
     }
@@ -97,7 +101,7 @@ class Emailer extends PHPMailer
 
         // if all server failed, throw Exception
         if (!isset($this->successServerHost))
-            throw new Exception('All SMTP servers failed');
+            throw new Exception('All SMTP servers failed. Additional info: '.$this->ErrorInfo);
 
         // if only some server failed, notify admin
         if (count($this->failedServers) > 0)

@@ -28,6 +28,8 @@ class EmailerTest extends Common
             1 => __DIR__ . '/samples/sample-attachment-2.txt',
         ];
 
+        $customHeaders['X-User-Ip'] = '1.2.3.4';
+
         $cfg = (new EmailFallback\Config)
             ->setServers($servers)
             ->setFromEmail('sender@example.com')
@@ -35,7 +37,8 @@ class EmailerTest extends Common
             ->setTos([$_ENV['MREF_ADMIN_EMAIL']])
             ->setSubject('Test Inquiry')
             ->setBody('Test Body')
-            ->setAttachments($attachments);
+            ->setAttachments($attachments)
+            ->setCustomHeaders($customHeaders);
 
         $mailer = new EmailFallback\Emailer($cfg);
 

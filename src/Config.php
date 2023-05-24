@@ -151,6 +151,13 @@ class Config
      */
     private $debugLevel = 0;
 
+    /**
+     * Array of custom headers
+     *
+     * @var ?array
+     */
+    private $customHeaders = [];
+
     public function getDebugLevel(): int
     {
         return $this->debugLevel;
@@ -341,4 +348,16 @@ class Config
         $this->appName = $appName;
         return $this;
     }
+
+    public function getCustomHeaders(): array
+    {
+        return $this->customHeaders;
+    }
+
+    public function setCustomHeaders(array $customHeaders)
+    {
+        $this->customHeaders = $customHeaders;
+        return $this;
+    }
+
 }

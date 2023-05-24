@@ -53,8 +53,9 @@ $mailer = (new EmailFallback\Builder)
     ->setAttachments(array) // optional: array of files already on the server
     ->setDebugLevel(int) // optional: PHPMailer debug level from 0 - 4. Default: 0
     ->setAdminEmails(array) // optional: array of emails that will be notified if fallback occurs
-    ->setNotificationFromEmail(string) // if you set an admin email, you must a "from" email for notifications
+    ->setNotificationFromEmail(string) // if you set an admin email, you must set a "from" email for notifications
     ->setAppName(string) // optional: app name used on notifications
+    ->setCustomHeaders(array) // optional: set/add custom headers
     ->build();
 ```
 

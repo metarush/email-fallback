@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.1.0 - 2023-05-25
+
+### Added
+
+- Add config method `setCustomHeaders()`.
+- Add additional error info from PHPMailer when all SMTP servers failed.
+
 ## 4.0.1 - 2019-08-10
 
 ### Fixed
@@ -23,7 +30,7 @@
 ### Added
 
 - Add helpers methods for composing email, related `PHPMailer` methods are overridden.
-  
+
   - `setFromEmail()`
   - `setTos()`
   - `setSubject()`

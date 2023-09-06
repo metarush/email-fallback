@@ -158,6 +158,12 @@ class Config
      */
     private $customHeaders = [];
 
+    /**
+     *
+     * @var string
+     */
+    private $charSet = 'UTF-8';
+
     public function getDebugLevel(): int
     {
         return $this->debugLevel;
@@ -358,6 +364,16 @@ class Config
     {
         $this->customHeaders = $customHeaders;
         return $this;
+    }
+
+    public function getCharSet(): string
+    {
+        return $this->charSet;
+    }
+
+    public function setCharSet(string $charSet): void
+    {
+        $this->charSet = $charSet;
     }
 
 }

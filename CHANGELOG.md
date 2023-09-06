@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.2.0 - 2023-09-06
+
+### Added
+
+- Add config `setCharSet()`.
+- Set default character set to UTF-8.
+
 ## 4.1.0 - 2023-05-25
 
 ### Added

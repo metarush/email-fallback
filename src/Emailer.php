@@ -39,6 +39,8 @@ class Emailer extends PHPMailer
 
         $this->clearAllRecipients();
 
+        $this->CharSet = $cfg->getCharSet();
+
         $this->setFrom($cfg->getFromEmail(), $cfg->getFromName());
 
         $tos = $cfg->getTos();

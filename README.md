@@ -56,6 +56,7 @@ $mailer = (new EmailFallback\Builder)
     ->setNotificationFromEmail(string) // if you set an admin email, you must set a "from" email for notifications
     ->setAppName(string) // optional: app name used on notifications
     ->setCustomHeaders(array) // optional: set/add custom headers
+    ->setCharSet(string) // optional: charset e.g., UTF-8 (default: UTF-8)
     ->build();
 ```
 

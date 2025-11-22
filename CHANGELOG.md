@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 5.0.0 - 2025-11-22
+
+### Changed
+
+- Upgrade dependency `phpfastcache` to ^8.0.
+- Upgrade PHP minimum requirement to 7.4.
+
+### Fixed
+
+- Fix setCharSet() not fluent in in Config.
+
 ## 4.2.0 - 2023-09-06
 
 ### Added

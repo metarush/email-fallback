@@ -46,6 +46,7 @@ class BuilderTest extends Common
             ->setRoundRobinMode(true)
             ->setRoundRobinDriver('files')
             ->setRoundRobinDriverConfig($driverConfig)
+            ->setCharSet('UTF-8')
             ->build();
 
         $this->assertInstanceOf(EmailFallback\Emailer::class, $mailer);
@@ -67,10 +68,6 @@ class BuilderTest extends Common
 
         $path = ($_ENV['MREF_FILES_PATH'] != '') ?
             $_ENV['MREF_FILES_PATH'] : __DIR__ . '/cache_data/';
-
-        $driverConfig = [
-            'path' => $path
-        ];
 
         $mailer = (new EmailFallback\Builder)
             ->setServers($servers)

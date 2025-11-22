@@ -371,9 +371,10 @@ class Config
         return $this->charSet;
     }
 
-    public function setCharSet(string $charSet): void
+    public function setCharSet(string $charSet)
     {
         $this->charSet = $charSet;
+        return $this;
     }
 
 }

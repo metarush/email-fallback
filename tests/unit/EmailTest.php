@@ -9,7 +9,7 @@ require_once __DIR__ . '/Common.php';
 /**
  * @runTestsInSeparateProcesses
  */
-class EmailerTest extends Common
+class EmailTest extends Common
 {
 
     public function testSendEmailUsing1Server()

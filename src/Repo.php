@@ -5,29 +5,55 @@ declare(strict_types=1);
 namespace MetaRush\EmailFallback;
 
 use Phpfastcache\Helper\Psr16Adapter;
+use Phpfastcache\Config\ConfigurationOption;
+use Phpfastcache\Exceptions\PhpfastcacheDriverCheckException;
+use Phpfastcache\Exceptions\PhpfastcacheDriverNotFoundException;
+use Phpfastcache\Exceptions\PhpfastcacheInvalidConfigurationException;
+use Phpfastcache\Exceptions\PhpfastcacheInvalidTypeException;
+use Phpfastcache\Exceptions\PhpfastcacheLogicException;
+use Phpfastcache\Drivers\Files\Config as FilesConfig;
+use Phpfastcache\Drivers\Memcached\Config as MemcachedConfig;
+use Phpfastcache\Drivers\Redis\Config as RedisConfig;
 use Phpfastcache\CacheManager;
-use Phpfastcache\Drivers;
 
 class Repo
 {
     const LAST_SERVER = 'lastServer';
+
+    /**
+     * @var Psr16Adapter<mixed>
+     */
     private $cache;
 
     /**
      *
      * @param string $driver
-     * @param array $driverConfig config options if applicablae
+     * @param array<string, mixed> $driverConfig config options if applicable
+     * @throws PhpfastcacheLogicException
+     * @throws PhpfastcacheInvalidTypeException
+     * @throws PhpfastcacheInvalidConfigurationException
+     * @throws PhpfastcacheDriverNotFoundException
+     * @throws PhpfastcacheDriverCheckException
      */
     public function __construct(string $driver, array $driverConfig = [])
     {
-        if ($driver === 'files')
-            $newDriver = CacheManager::Files(new Drivers\Files\Config($driverConfig));
+        CacheManager::setDefaultConfig(new ConfigurationOption([]));
 
-        if ($driver === 'memcached')
-            $newDriver = CacheManager::Memcached(new Drivers\Memcached\Config($driverConfig));
+        $driverInstance = null;
+        $driverName = '';
 
-        if ($driver === 'redis')
-            $newDriver = CacheManager::Redis(new Drivers\Redis\Config($driverConfig));
+        if ($driver === 'files') {
+            $driverInstance = new FilesConfig($driverConfig);
+            $driverName = 'Files';
+        } elseif ($driver === 'memcached') {
+            $driverInstance = new MemcachedConfig($driverConfig);
+            $driverName = 'Memcached';
+        } elseif ($driver === 'redis') {
+            $driverInstance = new RedisConfig($driverConfig);
+            $driverName = 'Redis';
+        }
+
+        $newDriver = CacheManager::getInstance($driverName, $driverInstance);
 
         $this->cache = new Psr16Adapter($newDriver);
     }
@@ -37,7 +63,7 @@ class Repo
      *
      * @param int $serverKey
      */
-    public function setLastServer(int $serverKey)
+    public function setLastServer(int $serverKey): void
     {
         $this->cache->set(self::LAST_SERVER, $serverKey, 2592000); // 30 days
     }
@@ -49,6 +75,8 @@ class Repo
      */
     public function getLastServer(): ?int
     {
-        return $this->cache->get(self::LAST_SERVER);
+        /** @var int|null */
+        $result = $this->cache->get(self::LAST_SERVER);
+        return $result;
     }
 }

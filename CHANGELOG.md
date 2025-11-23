@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 6.0.0 - 2025-11-24
+
+### Changed
+
+- Upgrade dependency `phpfastcache` to ^9.0.
+- Upgrade PHP minimum requirement to 8.0.
+
 ## 5.0.0 - 2025-11-22
 
 ### Changed
